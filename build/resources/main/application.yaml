@@ -1,0 +1,9 @@
+redis:
+  master:
+    host: 34.139.8.93
+    port: 10001
+  slave:
+    host: 104.196.97.158
+    port: 10597
+    password: 1qaz!
+    db: 0

@@ -1,3 +1,4 @@
+
 plugins {
 	id 'org.springframework.boot' version '2.5.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -6,17 +7,31 @@ plugins {
 
 group = 'com.redistest'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = "1.8"
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'com.redislabs:jrejson:1.4.0'
+	implementation 'org.springframework:spring-web:5.3.9'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.data:spring-data-jpa:2.5.4'
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+	// logging
+	implementation 'net.logstash.logback:logstash-logback-encoder:6.3'
+	implementation 'ch.qos.logback:logback-classic:1.2.3'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+bootRun {
+	if (project.hasProperty('args')) {
+		args project.args.split(',')
+	}
 }
