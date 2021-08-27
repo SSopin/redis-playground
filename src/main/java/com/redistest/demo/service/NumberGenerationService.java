@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.SortingParams;
 
 @Service
 @AllArgsConstructor
@@ -29,14 +30,34 @@ public class NumberGenerationService {
         return Arrays.asList(jedisSlave.zrevrange("numbers", Long.MIN_VALUE, Long.MAX_VALUE).toArray());
     }
 
-    public void saveListOfNumbers(int maxNubmer) {
+    /**
+     * Function saves sorted set with key "numbers".
+     * @param maxNubmer - largest number in a set.
+     */
+    public void saveSetOfNumbers(int maxNubmer) {
         for (int i = 1; i <= maxNubmer; i++) {
             jedisMaster.zadd("numbers", Double.valueOf(i), String.valueOf(i));
         }
     }
 
-    public void deleteNumbers() {
-        jedisMaster.del("numbers");
+    public void deleteNumbers(String key) {
+        jedisMaster.del(key);
     }
+    
+    public void saveListOfNumbers(int maxNumber) {
+        for (int i = 1; i <= maxNumber; i++) {
+            jedisMaster.lpush("numbersList",  String.valueOf(i));
+        }
+    }
+
+    public List<String> getListOfNumbersAsc() {
+        return jedisMaster.sort("numbersList");
+    }
+
+    public List<String> getListOfNumbersDesc() {
+        SortingParams order = new SortingParams();
+        return jedisMaster.sort("numbersList", order.desc());
+    }
+
 
 }

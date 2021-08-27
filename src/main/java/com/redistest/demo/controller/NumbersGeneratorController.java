@@ -18,6 +18,8 @@ public class NumbersGeneratorController {
     @Autowired
     NumberGenerationService numberGenerationService;
 
+    /*======================= SORTED SET Implementation =======================*/
+
     /**
      * Adds the product into the Cart. If active cart doesn't exist it creates it and then adds the product.
      *
@@ -25,7 +27,7 @@ public class NumbersGeneratorController {
      */
     @PostMapping("/generate")
     public void generator(@RequestBody NumbersGenerationRequest request) {
-        numberGenerationService.saveListOfNumbers(request.getMaxNumber());
+        numberGenerationService.saveSetOfNumbers(request.getMaxNumber());
     }
 
     @GetMapping("/get-numbers-asc")
@@ -38,9 +40,30 @@ public class NumbersGeneratorController {
         return numberGenerationService.getNumbersDesc();
     }
 
-    @PostMapping("/cleanup")
-    public void deleteAll() {
-        numberGenerationService.deleteNumbers();
+    /*======================= LIST Implementation =======================*/
+
+    @PostMapping("/generate-list")
+    public void generatorList(@RequestBody NumbersGenerationRequest request) {
+        numberGenerationService.saveListOfNumbers(request.getMaxNumber());
     }
 
+    @GetMapping("/get-numbers-list-asc")
+    public List<String> getNumbersListAsc() {
+        return numberGenerationService.getListOfNumbersAsc();
+    }
+
+    @GetMapping("/get-numbers-list-desc")
+    public List<String> getNumbersListDesc() {
+        return numberGenerationService.getListOfNumbersDesc();
+    }
+
+    @PostMapping("/cleanup-set")
+    public void deleteNumberSet() {
+        numberGenerationService.deleteNumbers("numbers");
+    }
+
+    @PostMapping("/cleanup-list")
+    public void deleteNumberList() {
+        numberGenerationService.deleteNumbers("numbersList");
+    }
 }
