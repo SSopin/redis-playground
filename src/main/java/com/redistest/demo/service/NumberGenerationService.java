@@ -2,7 +2,6 @@ package com.redistest.demo.service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,13 +50,12 @@ public class NumberGenerationService {
     }
 
     public List<String> getListOfNumbersAsc() {
-        return jedisMaster.sort("numbersList");
+        return jedisSlave.sort("numbersList");
     }
 
     public List<String> getListOfNumbersDesc() {
         SortingParams order = new SortingParams();
-        return jedisMaster.sort("numbersList", order.desc());
+        return jedisSlave.sort("numbersList", order.desc());
     }
-
 
 }

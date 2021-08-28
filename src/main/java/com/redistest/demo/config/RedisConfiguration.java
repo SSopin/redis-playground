@@ -30,8 +30,7 @@ class RedisConfiguration {
     @Bean
     public Jedis jedisMaster() {
         JedisPool pool = new JedisPool(redisMasterHost, redisMasterPort);
-        Jedis jedis =  pool.getResource();
-        return jedis;
+        return pool.getResource();
     }
 
     @Bean
